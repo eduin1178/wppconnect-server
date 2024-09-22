@@ -17,7 +17,6 @@
     "docs": "tsx src/swagger.ts",
     "license:add": "license-check-and-add add",
     "license:check": "license-check-and-add check",
-    "lint": "eslint --ext .ts src",
     "prepare": "husky install",
     "release": "release-it",
     "start": "node ./dist/server.js",
