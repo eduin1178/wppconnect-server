@@ -1,14 +1,10 @@
 version: "3"
-
 services:
-  wppconnect:
-    build:
-      context: .
+  wppconnect-server:
+    image: wppconnect-server:latest
     volumes:
-      - ./config.ts:/usr/src/wpp-server/config.ts
-      - ./wppconnect_tokens:/usr/src/wpp-server/tokens
+      - ./tokens:/usr/src/wpp-server/tokens
+      - ./userDataDir:/usr/src/wpp-server/userDataDir
     ports:
       - "21465:21465"
-
-volumes:
-  wppconnect_tokens: {}      
+    working_dir: /usr/src/wpp-server
