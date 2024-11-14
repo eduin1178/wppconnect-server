@@ -38,7 +38,7 @@ export default class chatWootClient {
       : `WPPConnect`;
     this.mobile_number = this.config.mobile_number
       ? this.config.mobile_number
-      : '5511999999999';
+      : '573127904985';
     this.sender = {
       pushname: this.mobile_name,
       id: this.mobile_number,
