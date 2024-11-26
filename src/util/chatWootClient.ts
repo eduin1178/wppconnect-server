@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
-import { default as FormData } from 'form-data';
-import mime from 'mime-types';
+import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
+import { default as FormData } from "form-data";
+import mime from "mime-types";
 
-import bufferutils from './bufferutils';
+import bufferutils from "./bufferutils";
 // import bufferUtils from './bufferutils';
-import { eventEmitter } from './sessionUtil';
+import { eventEmitter } from "./sessionUtil";
 
 export default class chatWootClient {
   declare config: any;
@@ -38,7 +38,7 @@ export default class chatWootClient {
       : `WPPConnect`;
     this.mobile_number = this.config.mobile_number
       ? this.config.mobile_number
-      : '573127904985';
+      : "573127904985";
     this.sender = {
       pushname: this.mobile_name,
       id: this.mobile_number,
@@ -48,7 +48,7 @@ export default class chatWootClient {
     this.api = axios.create({
       baseURL: this.config.baseURL,
       headers: {
-        'Content-Type': 'application/json;charset=utf-8',
+        "Content-Type": "application/json;charset=utf-8",
         api_access_token: this.config.token,
       },
     });
@@ -59,12 +59,12 @@ export default class chatWootClient {
         if (config?.chatwoot?.sendQrCode !== false) {
           this.sendMessage(client, {
             sender: this.sender,
-            chatId: this.mobile_number + '@c.us',
-            type: 'image',
-            timestamp: 'qrcode',
-            mimetype: 'image/png',
-            caption: 'leia o qrCode',
-            qrCode: qrCode.replace('data:image/png;base64,', ''),
+            chatId: this.mobile_number + "@c.us",
+            type: "image",
+            timestamp: "qrcode",
+            mimetype: "image/png",
+            caption: "leia o qrCode",
+            qrCode: qrCode.replace("data:image/png;base64,", ""),
           });
         }
       }, 1000);
@@ -75,7 +75,7 @@ export default class chatWootClient {
       if (config?.chatwoot?.sendStatus !== false) {
         this.sendMessage(client, {
           sender: this.sender,
-          chatId: this.mobile_number + '@c.us',
+          chatId: this.mobile_number + "@c.us",
           body: `wppconnect status: ${status} `,
         });
       }
@@ -87,113 +87,28 @@ export default class chatWootClient {
     });
   }
 
-  // async sendMessage(client: any, message: any) {
-  //   if (message.isGroupMsg || message.chatId.indexOf('@broadcast') > 0) return;
-  //   const contact = await this.createContact(message);
-  //   const conversation = await this.createConversation(
-  //     contact,
-  //     message.chatId.split('@')[0]
-  //   );
-
-  //   try {
-  //     if (
-  //       message.type == 'image' ||
-  //       message.type == 'video' ||
-  //       message.type == 'in' ||
-  //       message.type == 'document' ||
-  //       message.type == 'ptt' ||
-  //       message.type == 'audio' ||
-  //       message.type == 'sticker'
-  //     ) {
-  //       if (message.mimetype == 'image/webp') message.mimetype = 'image/jpeg';
-  //       const extension = mime.extension(message.mimetype);
-  //       const filename = `${message.timestamp}.${extension}`;
-  //       let b64;
-
-  //       if (message.qrCode) b64 = message.qrCode;
-  //       else {
-  //         const buffer = await client.decryptFile(message);
-  //         b64 = await buffer.toString('base64');
-  //       }
-
-  //       const mediaData = Buffer.from(b64, 'base64');
-
-  //       // Create a readable stream from the Buffer
-  //       const stream = new Readable();
-  //       stream.push(mediaData);
-  //       stream.push(null); // Signaling the end of the stream
-
-  //       const data = new FormData();
-  //       if (message.caption) {
-  //         data.append('content', message.caption);
-  //       }
-
-  //       data.append('attachments[]', stream, {
-  //         filename: filename,
-  //         contentType: message.mimetype,
-  //       });
-
-  //       data.append('message_type', 'incoming');
-  //       data.append('private', 'false');
-
-  //       const configPost = Object.assign(
-  //         {},
-  //         {
-  //           baseURL: this.config.baseURL,
-  //           headers: {
-  //             'Content-Type': 'application/json;charset=utf-8',
-  //             api_access_token: this.config.token,
-  //           },
-  //         }
-  //       );
-
-  //       configPost.headers = { ...configPost.headers, ...data.getHeaders() };
-  //       console.log('PRÉ-REQUEST');
-  //       const result = await axios.post(
-  //         `api/v1/accounts/${this.account_id}/conversations/${conversation.id}/messages`,
-  //         data,
-  //         configPost
-  //       );
-  //       console.log('POS-REQUEST');
-  //       return result;
-  //     } else {
-  //       const body = {
-  //         content: message.body,
-  //         message_type: 'incoming',
-  //       };
-  //       const { data } = await this.api.post(
-  //         `api/v1/accounts/${this.account_id}/conversations/${conversation.id}/messages`,
-  //         body
-  //       );
-  //       return data;
-  //     }
-  //   } catch (e) {
-  //     return null;
-  //   }
-  // }
-
   async sendMessage(client: any, message: any) {
-    if (message.isGroupMsg || message.chatId.indexOf('@broadcast') > 0) return;
+    if (message.isGroupMsg || message.chatId.indexOf("@broadcast") > 0) return;
 
     const contact = await this.createContact(message);
     const conversation = await this.createConversation(
       contact,
-      message.chatId.split('@')[0]
+      message.chatId.split("@")[0]
     );
 
     try {
       if (
         [
-          'image',
-          'video',
-          'in',
-          'document',
-          'ptt',
-          'audio',
-          'sticker',
+          "image",
+          "video",
+          "in",
+          "document",
+          "ptt",
+          "audio",
+          "sticker",
         ].includes(message.type)
       ) {
-        if (message.mimetype === 'image/webp') message.mimetype = 'image/jpeg';
+        if (message.mimetype === "image/webp") message.mimetype = "image/jpeg";
         const extension = mime.extension(message.mimetype);
         const filename = `${message.timestamp}.${extension}`;
         let b64;
@@ -202,24 +117,24 @@ export default class chatWootClient {
           b64 = message.qrCode;
         } else {
           const buffer = await client.decryptFile(message);
-          b64 = buffer.toString('base64');
+          b64 = buffer.toString("base64");
         }
 
-        const mediaData = Buffer.from(b64, 'base64');
+        const mediaData = Buffer.from(b64, "base64");
         const stream = bufferutils.bufferToReadableStream(mediaData);
 
         const data = new FormData();
         if (message.caption) {
-          data.append('content', message.caption);
+          data.append("content", message.caption);
         }
 
-        data.append('attachments[]', stream, {
+        data.append("attachments[]", stream, {
           filename: filename,
           contentType: message.mimetype,
         });
 
-        data.append('message_type', 'incoming');
-        data.append('private', 'false');
+        data.append("message_type", "incoming");
+        data.append("private", "false");
 
         const configPost: AxiosRequestConfig = {
           baseURL: this.config.baseURL,
@@ -236,7 +151,7 @@ export default class chatWootClient {
       } else {
         const body = {
           content: message.body,
-          message_type: 'incoming',
+          message_type: "incoming",
         };
         const endpoint = `api/v1/accounts/${this.account_id}/conversations/${conversation.id}/messages`;
 
@@ -244,7 +159,7 @@ export default class chatWootClient {
         return data;
       }
     } catch (e) {
-      console.error('Error sending message:', e);
+      console.error("Error sending message:", e);
       return null;
     }
   }
@@ -268,12 +183,12 @@ export default class chatWootClient {
         ? message.sender.formattedName
         : message.sender.pushname || message.sender.formattedName,
       phone_number:
-        typeof message.sender.id == 'object'
+        typeof message.sender.id == "object"
           ? message.sender.id.user
-          : message.sender.id.split('@')[0],
+          : message.sender.id.split("@")[0],
     };
     body.phone_number = `+${body.phone_number}`;
-    const contact = await this.findContact(body.phone_number.replace('+', ''));
+    const contact = await this.findContact(body.phone_number.replace("+", ""));
     if (contact && contact.meta.count > 0) return contact.payload[0];
 
     try {
@@ -294,7 +209,7 @@ export default class chatWootClient {
         `api/v1/accounts/${this.account_id}/contacts/${contact.id}/conversations`
       );
       return data.payload.find(
-        (e: any) => e.inbox_id == this.inbox_id && e.status != 'resolved'
+        (e: any) => e.inbox_id == this.inbox_id && e.status != "resolved"
       );
     } catch (e) {
       console.log(e);
@@ -310,7 +225,7 @@ export default class chatWootClient {
       source_id: source_id,
       inbox_id: this.inbox_id,
       contact_id: contact.id,
-      status: 'open',
+      status: "open",
     };
 
     try {

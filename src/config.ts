@@ -6,7 +6,7 @@ export default {
   host: "http://localhost",
   port: "21465",
   deviceName: "WppConnect",
-  poweredBy: "WPPConnect-Server",
+  poweredBy: "EduNet",
   startAllSession: true,
   tokenStoreType: "file",
   maxListeners: 15,
